@@ -115,7 +115,7 @@ const Calculator = () => {
             ))}
           </div>
           <div className="flex justify-end w-full pt-4">
-            <div className="w-1/4">
+            <div className="w-full md:w-1/4">
               <div className="flex justify-between">
                 <h2 className="text-lg font-semibold">Total sede</h2>
                 <p className="text-lg font-semibold">
