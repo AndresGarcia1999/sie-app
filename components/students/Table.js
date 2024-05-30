@@ -10,7 +10,7 @@ const StudentsTable = ({ students = [], loadingStudents, onAdd, onEdit }) => {
 
   return loadingStudents ? (
     <div className="flex justify-center py-4">
-      <i className="text-2xl text-gray-400 fas fa-spinner fa-spin"></i>
+      <i className="text-2xl text-gray-400 fas -z-10 fa-spinner fa-spin"></i>
     </div>
   ) : (
     <div className="flex flex-col py-4">

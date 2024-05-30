@@ -10,7 +10,7 @@ const TutorsTable = ({ tutors = [], loadingTutors, onAdd, onEdit }) => {
 
   return loadingTutors ? (
     <div className="flex justify-center py-4">
-      <i className="text-2xl text-gray-400 fas fa-spinner fa-spin"></i>
+      <i className="text-2xl text-gray-400 -z-10 fa-spin fas fa-spinner"></i>
     </div>
   ) : (
     <div className="flex flex-col py-4">

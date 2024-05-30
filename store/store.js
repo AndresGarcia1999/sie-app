@@ -14,6 +14,7 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "./userSlice";
 import tutorsReducer from "./tutorsSlice";
 import studentsReducer from "./studentsSlice";
+import classesReducer from "./classesSlice";
 
 const persistConfig = {
   key: "persist",
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   tutors: tutorsReducer,
   students: studentsReducer,
+  classes: classesReducer,
 });
 
 const makeConfiguredStore = () =>
