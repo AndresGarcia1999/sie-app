@@ -1,0 +1,17 @@
+{
+  "name": "SIE App",
+  "short_name": "SIE App",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "description": "Gestiona tus clases de manera sencilla y eficiente",
+  "icons": [
+    {
+      "src": "/icons/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
