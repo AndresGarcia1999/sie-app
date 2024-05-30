@@ -180,10 +180,16 @@ const DayCard = ({ day, resume }) => {
                   <p className="text-gray-700">{classData.title}</p>
                   <div>
                     {classData.is_outside && (
-                      <i className="ml-2 text-orange-600 fas fa-home"></i>
+                      <i
+                        title="domicilio"
+                        className="ml-2 text-orange-600 fas fa-home"
+                      ></i>
                     )}
                     {classData.transportation_cost > 0 && (
-                      <i className="ml-2 text-blue-600 fas fa-car"></i>
+                      <i
+                        title="con transporte"
+                        className="ml-2 text-blue-600 fas fa-car"
+                      ></i>
                     )}
                   </div>
                 </div>

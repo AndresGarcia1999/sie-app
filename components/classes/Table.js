@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { formatDateInterval } from "utils/dateFormat";
 
 const ClassesTable = ({
@@ -65,11 +64,11 @@ const ClassListItem = ({ classData, onOpenModal, onEdit, onDelete }) => {
           <div className="flex flex-col gap-x-2 sm:flex-row">
             <p className="text-sm text-gray-500">
               Profe:{" "}
-              <span className="font-semibold">{classData.tutor.name}</span>
+              <span className="font-semibold">{classData?.tutor?.name}</span>
             </p>
             <p className="text-sm text-gray-500">
               Estudiante:{" "}
-              <span className="font-semibold">{classData.student.name}</span>
+              <span className="font-semibold">{classData?.student?.name}</span>
             </p>
           </div>
         </div>

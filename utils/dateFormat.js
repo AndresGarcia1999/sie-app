@@ -29,7 +29,7 @@ export const formatDateInterval = (date, startTime, endTime) => {
   const endDateTime = new Date(`${date}T${endTime}`);
 
   const dayOfWeek = daysOfWeek[dateObj.getDay() + 1];
-  const day = dateObj.getDate();
+  const day = dateObj.getDate() + 1;
   const month = months[dateObj.getMonth()];
 
   const timeOptions = {
@@ -51,7 +51,7 @@ export const formatDate = (date) => {
   const dateObj = new Date(date);
 
   const dayOfWeek = daysOfWeek[dateObj.getDay() + 1];
-  const day = dateObj.getDate();
+  const day = dateObj.getDate() + 1;
   const month = months[dateObj.getMonth()];
 
   return `${dayOfWeek} ${day} de ${month}`;
