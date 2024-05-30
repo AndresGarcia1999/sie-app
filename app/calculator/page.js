@@ -154,7 +154,7 @@ const DayCard = ({ day, resume }) => {
     <div className="mb-4">
       <div
         onClick={() => setIsOpen(!isOpen)}
-        className="z-10 p-4 transition-all duration-500 bg-gray-300 rounded-lg shadow-lg cursor-pointer hover:bg-gray-400"
+        className="z-10 p-4 transition-all duration-500 bg-gray-200 rounded-lg shadow-lg cursor-pointer hover:bg-gray-300"
       >
         <div className="flex items-center justify-between gap-3">
           <div className="flex justify-between w-full">

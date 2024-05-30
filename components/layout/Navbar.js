@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setLogout } from "store/userSlice";
@@ -10,6 +10,7 @@ const sections = [
   { title: "Clases", url: "/classes" },
   { title: "Profes", url: "/tutors" },
   { title: "Calculadora", url: "/calculator" },
+  { title: "Calendario", url: "/calendar" },
 ];
 
 const Navbar = () => {
@@ -20,6 +21,7 @@ const Navbar = () => {
 
   const onLogout = () => {
     dispatch(setLogout());
+    redirect("/login");
   };
 
   useEffect(() => {

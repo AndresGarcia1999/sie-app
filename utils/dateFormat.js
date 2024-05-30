@@ -56,3 +56,21 @@ export const formatDate = (date) => {
 
   return `${dayOfWeek} ${day} de ${month}`;
 };
+
+export const formatClassSchedule = (start, end) => {
+  const startDateTime = new Date(`1970-01-01T${start}`);
+  const endDateTime = new Date(`1970-01-01T${end}`);
+  const timeOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  const startFormatted = new Intl.DateTimeFormat("es-ES", timeOptions).format(
+    startDateTime
+  );
+  const endFormatted = new Intl.DateTimeFormat("es-ES", timeOptions).format(
+    endDateTime
+  );
+
+  return `${startFormatted} a ${endFormatted}`;
+};

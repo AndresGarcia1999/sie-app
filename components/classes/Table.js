@@ -46,7 +46,7 @@ const ClassListItem = ({ classData, onOpenModal, onEdit, onDelete }) => {
   return (
     <li
       onClick={() => onOpenModal(classData)}
-      className="flex items-center justify-between px-4 py-2 border rounded cursor-pointer hover:bg-gray-100"
+      className="flex items-center justify-between px-4 py-2 bg-white border rounded cursor-pointer hover:bg-gray-100"
     >
       <div>
         <h3 className="text-lg font-semibold">
