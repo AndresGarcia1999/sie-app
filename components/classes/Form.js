@@ -172,22 +172,39 @@ const ClassForm = ({ isOpen, onClose, classData }) => {
                 onChange={(e) => setDescription(e.target.value)}
               />
             </label>
-            <label
-              htmlFor="isOutside"
-              className="flex items-center space-x-2 cursor-pointer"
-            >
-              <input
-                id="isOutside"
-                type="checkbox"
-                checked={isOutside}
-                className="text-green-600 outline-none ring-0"
-                onChange={(e) => setIsOutside(e.target.checked)}
-              />
-              <span>Domicilio</span>
-            </label>
+            <div className="flex justify-start w-full gap-3">
+              <label
+                htmlFor="isInside"
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={() => setIsOutside(false)}
+              >
+                <i
+                  className={` ${
+                    isOutside
+                      ? "far fa-circle text-gray-400"
+                      : "fas fa-check-circle text-green-600"
+                  }`}
+                ></i>
+                <span>Sede</span>
+              </label>
+              <label
+                htmlFor="isOutside"
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={() => setIsOutside(true)}
+              >
+                <i
+                  className={` ${
+                    !isOutside
+                      ? "far fa-circle text-gray-400"
+                      : "fas fa-check-circle text-green-600"
+                  }`}
+                ></i>
+                <span>Domicilio</span>
+              </label>
+            </div>
           </div>
           {/* Student and Tutor Selection */}
-          <div className="space-y-2">
+          <div className="pt-2 space-y-2">
             <label htmlFor="selectedStudent" className="block">
               Estudiante:
               {studentsState.status === "loading" ? (
