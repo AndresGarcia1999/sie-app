@@ -11,7 +11,11 @@ export default function Home() {
 
   useEffect(() => {
     const getTodayClasses = async () => {
-      const today = new Date().toISOString().split("T")[0];
+      const dateObj = new Date();
+      const day = String(dateObj.getDate()).padStart(2, "0"); // day of the month
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // month (getMonth() returns 0-11 for Jan-Dec)
+      const year = dateObj.getFullYear(); // year
+      const today = `${day}/${month}/${year}`;
       try {
         const res = await fetch(`/api/tutors/${user.id}/classes?date=${today}`);
         const data = await res.json();
@@ -39,7 +43,7 @@ export default function Home() {
         ) : (
           <div className="flex flex-wrap gap-4 px-4 py-2">
             {todayClasses.map((c) => (
-              <ClassCard classData={c} />
+              <ClassCard classData={c} key={c.id} />
             ))}
           </div>
         )}
@@ -51,10 +55,7 @@ export default function Home() {
 const ClassCard = ({ classData }) => {
   const [showDescription, setShowDescription] = useState(false);
   return (
-    <div
-      key={classData.id}
-      className="w-full p-3 text-center bg-white rounded-lg shadow-md md:w-1/2 lg:w-1/3 xl:w-1/4"
-    >
+    <div className="w-full p-3 text-center bg-white rounded-lg shadow-md md:w-1/2 lg:w-1/3 xl:w-1/4">
       <h3 className="text-lg font-medium md:text-xl">
         {classData.title} - {classData.student_name}
       </h3>
