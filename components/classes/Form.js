@@ -36,6 +36,7 @@ const ClassForm = ({ isOpen, onClose, classData }) => {
   const [tutorError, setTutorError] = useState("");
   const [studentError, setStudentError] = useState("");
   const [scheduleError, setScheduleError] = useState("");
+  const [transportationCostError, setTransportationCostError] = useState("");
 
   useEffect(() => {
     setEditMode(!!classData);
@@ -53,6 +54,7 @@ const ClassForm = ({ isOpen, onClose, classData }) => {
       setTutorError("");
       setStudentError("");
       setScheduleError("");
+      setTransportationCostError("");
     }
   }, [isOpen, classData]);
 
@@ -89,6 +91,16 @@ const ClassForm = ({ isOpen, onClose, classData }) => {
       isValid = false;
     } else {
       setScheduleError("");
+    }
+
+    //Validate transportation cost
+    if (transportationCost < 0) {
+      setTransportationCostError(
+        "el costo de transporte no puede ser negativo"
+      );
+      isValid = false;
+    } else {
+      setTransportationCostError("");
     }
     // Validate end time is after start time
     if (day && startAt && endAt) {
@@ -302,10 +314,16 @@ const ClassForm = ({ isOpen, onClose, classData }) => {
                 value={transportationCost}
                 type="number"
                 step={1000}
+                min={0}
                 placeholder="Costo de transporte"
                 className="w-full p-2 border border-gray-200 rounded"
                 onChange={(e) => setTransportationCost(e.target.value)}
               />
+              {transportationCostError && (
+                <p className="text-sm text-red-500">
+                  {transportationCostError}
+                </p>
+              )}
             </label>
           </div>
         </div>
