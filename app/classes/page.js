@@ -1,5 +1,6 @@
 "use client";
 
+import ConfirmDeleteModal from "components/ConfirmationModal";
 import ClassModal from "components/classes/DetailModal";
 import ClassForm from "components/classes/Form";
 import ClassesTable from "components/classes/Table";
@@ -18,6 +19,8 @@ const ClassesHome = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
   const [classToShow, setClassToShow] = useState(null);
+  //Delete logic
+  const [classToDelete, setClassToDelete] = useState(null);
 
   const handleAddClass = () => {
     setIsFormOpen(true);
@@ -73,9 +76,7 @@ const ClassesHome = () => {
           setIsFormOpen(true);
         }}
         onDelete={(classDataId) => {
-          if (window.confirm("¿Estás seguro de eliminar esta clase?")) {
-            dispatch(deleteClass(classDataId));
-          }
+          setClassToDelete(classDataId);
         }}
       />
       <ClassForm
@@ -87,6 +88,16 @@ const ClassesHome = () => {
         classData={classToShow || {}}
         isOpen={!!classToShow?.id} // Open modal if class ID is selected
         onClose={() => setClassToShow(null)}
+      />
+      <ConfirmDeleteModal
+        text="¿Estás seguro de que deseas eliminar esta clase?"
+        isOpen={!!classToDelete}
+        onClose={() => setClassToDelete(null)}
+        confirmDelete={() => {
+          dispatch(deleteClass(classToDelete));
+          setClassToDelete(null);
+        }}
+        loading={status.delete === "loading"}
       />
     </>
   );
