@@ -15,7 +15,7 @@ export default function Home() {
       const day = String(dateObj.getDate()).padStart(2, "0"); // day of the month
       const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // month (getMonth() returns 0-11 for Jan-Dec)
       const year = dateObj.getFullYear(); // year
-      const today = `${day}/${month}/${year}`;
+      const today = `${year}-${month}-${day}`;
       try {
         const res = await fetch(`/api/tutors/${user.id}/classes?date=${today}`);
         const data = await res.json();
