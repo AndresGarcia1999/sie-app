@@ -41,6 +41,65 @@ const Calculator = () => {
       });
   };
 
+  const updateClassPrice = (day, classId, newPrice, newTransportationCost) => {
+    if (newPrice < 0) newPrice = 0;
+    if (newTransportationCost < 0) newTransportationCost = 0;
+    setResume((prevResume) => {
+      const updatedDays = { ...prevResume.days };
+      const updatedClasses = updatedDays[day].classes.map((classData) => {
+        if (classData.id === classId) {
+          return {
+            ...classData,
+            price: newPrice,
+            transportation_cost: newTransportationCost,
+          };
+        }
+        return classData;
+      });
+      updatedDays[day].classes = updatedClasses;
+
+      // Recalculate total price for the day
+      updatedDays[day].totalPrice = updatedClasses.reduce(
+        (total, classData) =>
+          total + classData.price + classData.transportation_cost,
+        0
+      );
+
+      // Recalculate overall totals
+      const newTotals = calculateTotals(updatedDays);
+
+      return {
+        ...prevResume,
+        days: updatedDays,
+        totals: newTotals,
+      };
+    });
+  };
+
+  const calculateTotals = (days) => {
+    let totalInside = 0;
+    let totalOutside = 0;
+    let totalTransportationCost = 0;
+
+    Object.values(days).forEach((day) => {
+      day.classes.forEach((classData) => {
+        if (classData.is_outside) {
+          totalOutside += classData.price;
+        } else {
+          totalInside += classData.price;
+        }
+        totalTransportationCost += classData.transportation_cost;
+      });
+    });
+
+    return {
+      totalInside,
+      totalOutside,
+      totalTransportationCost,
+      total: totalInside + totalOutside + totalTransportationCost,
+    };
+  };
+
   return (
     <div className="w-full">
       <h1>Calcula el costo de tus clases:</h1>
@@ -111,7 +170,12 @@ const Calculator = () => {
         <>
           <div className="pt-4 space-y-4">
             {Object.keys(resume.days).map((day) => (
-              <DayCard key={day} day={day} resume={resume.days[day]} />
+              <DayCard
+                key={day}
+                day={day}
+                resume={resume.days[day]}
+                updateClassPrice={updateClassPrice}
+              />
             ))}
           </div>
           <div className="flex justify-end w-full pt-4">
@@ -148,7 +212,7 @@ const Calculator = () => {
 
 export default Calculator;
 
-const DayCard = ({ day, resume }) => {
+const DayCard = ({ day, resume, updateClassPrice }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="mb-4">
@@ -201,12 +265,42 @@ const DayCard = ({ day, resume }) => {
                   {classData.duration > 1 ? " horas" : " hora"}
                 </p>
                 <div className="flex justify-center gap-2 pt-2">
-                  <div className="px-3 py-1 text-sm text-white bg-green-500 rounded-full w-fit">
-                    ${classData.price}
+                  <div className="flex items-center justify-center w-1/2 px-3 py-1 text-sm text-white bg-green-500 border-none rounded-full">
+                    $
+                    <input
+                      className="w-full p-0 text-sm text-center bg-transparent border-none"
+                      type="number"
+                      value={classData.price}
+                      onChange={(e) =>
+                        updateClassPrice(
+                          day,
+                          classData.id,
+                          Number(e.target.value),
+                          classData.transportation_cost
+                        )
+                      }
+                      step={1000}
+                      min="0"
+                    />
                   </div>
                   {classData.transportation_cost > 0 && (
-                    <div className="px-3 py-1 text-sm text-white bg-blue-500 rounded-full w-fit">
-                      ${classData.transportation_cost}
+                    <div className="flex items-center justify-center w-1/2 px-3 py-1 text-sm text-white bg-blue-500 border-none rounded-full">
+                      $
+                      <input
+                        className="w-full p-0 text-sm text-center bg-transparent border-none"
+                        type="number"
+                        value={classData.transportation_cost}
+                        onChange={(e) =>
+                          updateClassPrice(
+                            day,
+                            classData.id,
+                            classData.price,
+                            Number(e.target.value)
+                          )
+                        }
+                        step={1000}
+                        min="0"
+                      />
                     </div>
                   )}
                 </div>
