@@ -13,7 +13,8 @@ export async function GET(req, { params }) {
   }
 
   //get today's date
-  const today = new Date();
+  const todayUTC = new Date();
+  const today = new Date(todayUTC.setHours(todayUTC.getHours() - 5));
   const [month, day, year] = [
     today.getMonth() + 1,
     today.getDate(),
