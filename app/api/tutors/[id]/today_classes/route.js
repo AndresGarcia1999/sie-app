@@ -4,14 +4,24 @@ import { supabase } from "utils/supabase/client";
 export async function GET(req, { params }) {
   const url = new URL(req.url);
   const tutorId = params.id;
-  const date = url.searchParams.get("date");
 
-  if (!tutorId || !date) {
+  if (!tutorId) {
     return NextResponse.json(
       { message: "Missing required parameters: tutor, date" },
       { status: 400 }
     );
   }
+
+  //get today's date
+  const today = new Date();
+  const [month, day, year] = [
+    today.getMonth() + 1,
+    today.getDate(),
+    today.getFullYear(),
+  ];
+  const date = `${year}-${month}-${day}`;
+  const [hour, minutes] = [today.getHours(), today.getMinutes()];
+  const time = `${hour}:${minutes}`;
 
   try {
     const { data, error } = await supabase
@@ -28,6 +38,7 @@ export async function GET(req, { params }) {
       ) // Select all necessary fields with student name alias
       .eq("tutor", tutorId)
       .eq("day", date)
+      .gte("end_at", time)
       .order("start_at", {
         ascending: true,
       });

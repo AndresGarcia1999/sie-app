@@ -11,13 +11,8 @@ export default function Home() {
 
   useEffect(() => {
     const getTodayClasses = async () => {
-      const dateObj = new Date();
-      const day = String(dateObj.getDate()).padStart(2, "0"); // day of the month
-      const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // month (getMonth() returns 0-11 for Jan-Dec)
-      const year = dateObj.getFullYear(); // year
-      const today = `${year}-${month}-${day}`;
       try {
-        const res = await fetch(`/api/tutors/${user.id}/classes?date=${today}`);
+        const res = await fetch(`/api/tutors/${user.id}/today_classes`);
         const data = await res.json();
         setTodayClasses(data);
       } catch (error) {
@@ -52,10 +47,24 @@ export default function Home() {
   );
 }
 
+const isCurrentClass = (start, end) => {
+  const today = new Date();
+  const [hour, minutes] = [today.getHours(), today.getMinutes()];
+  const time = `${hour}:${minutes}`;
+  return start <= time && end >= time;
+};
+
 const ClassCard = ({ classData }) => {
   const [showDescription, setShowDescription] = useState(false);
+
   return (
-    <div className="w-full p-3 text-center bg-white rounded-lg shadow-md md:w-1/2 lg:w-1/3 xl:w-1/4">
+    <div
+      className={`w-full p-3 text-center bg-white rounded-lg shadow-md md:w-1/2 lg:w-1/3 xl:w-1/4 ${
+        isCurrentClass(classData.start_at, classData.end_at)
+          ? "border-2 border-blue-400"
+          : ""
+      }`}
+    >
       <h3 className="text-lg font-medium md:text-xl">
         {classData.title} - {classData.student_name}
       </h3>
