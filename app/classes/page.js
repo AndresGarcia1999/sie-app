@@ -14,6 +14,7 @@ import { fetchTutors } from "store/tutorsSlice";
 const ClassesHome = () => {
   const dispatch = useDispatch();
   const { classes, status, error } = useSelector((state) => state.classes);
+  const { user } = useSelector((state) => state.user);
   const { tutors } = useSelector((state) => state.tutors);
   const { students } = useSelector((state) => state.students);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -21,6 +22,9 @@ const ClassesHome = () => {
   const [classToShow, setClassToShow] = useState(null);
   //Delete logic
   const [classToDelete, setClassToDelete] = useState(null);
+  //admin only
+  const [classesToShow, setClassesToShow] = useState([]);
+  const [showAllClasses, setShowAllClasses] = useState(false);
 
   const handleAddClass = () => {
     setIsFormOpen(true);
@@ -57,11 +61,45 @@ const ClassesHome = () => {
     }
   }, [status]);
 
+  useEffect(() => {
+    setClassesToShow(
+      user?.is_admin && showAllClasses
+        ? classes
+        : classes.filter((c) => c.tutor === user.id)
+    );
+  }, [showAllClasses, user, classes]);
+
   return (
     <>
-      <h1 className="w-full text-lg font-semibold text-center">Clases</h1>
+      {user?.is_admin ? (
+        <div className="flex justify-center pt-1">
+          <div
+            className={`px-3 py-1 border border-blue-500 rounded-l-full transition-colors duration-500 ease-in-out ${
+              showAllClasses
+                ? "bg-blue-500 text-white"
+                : "bg-white text-blue-500"
+            }`}
+            onClick={() => setShowAllClasses(true)}
+          >
+            Todas las clases
+          </div>
+          <div
+            className={`px-3 py-1 border border-blue-500 rounded-r-full transition-colors duration-500 ease-in-out ${
+              !showAllClasses
+                ? "bg-blue-500 text-white"
+                : "bg-white text-blue-500"
+            }`}
+            onClick={() => setShowAllClasses(false)}
+          >
+            Mis clases
+          </div>
+        </div>
+      ) : (
+        <h1 className="w-full text-lg font-semibold text-center">Mis Clases</h1>
+      )}
+
       <ClassesTable
-        classes={classes.map((classData) => ({
+        classes={classesToShow.map((classData) => ({
           ...classData,
           student: students.find((s) => s.id === classData.student),
           tutor: tutors.find((t) => t.id === classData.tutor),
