@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "store/userSlice";
 
 const sections = [
@@ -18,6 +18,8 @@ const Navbar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [currentSection, setCurrentSection] = useState("/");
+  const { user } = useSelector((state) => state.user);
+  const [availableSections, setAvailableSections] = useState(sections);
 
   const onLogout = () => {
     dispatch(setLogout());
@@ -28,6 +30,15 @@ const Navbar = () => {
     const section = pathname === "/" ? "/" : `/${pathname.split("/")[1]}`;
     setCurrentSection(section);
   }, [pathname]);
+
+  useEffect(() => {
+    if (!user.is_admin) {
+      const filteredSections = sections.filter(
+        (section) => section.url !== "/tutors"
+      );
+      setAvailableSections(filteredSections);
+    }
+  }, [user]);
 
   return (
     <>
@@ -42,7 +53,7 @@ const Navbar = () => {
 
           <div className="hidden space-x-4 text-white sm:flex">
             <img src="SIE_logo.svg" alt="logo" height={32} width={32} />
-            {sections.map((section) => (
+            {availableSections.map((section) => (
               <Link
                 key={section.title}
                 className={`px-2 py-1 rounded transition-colors ${
@@ -87,7 +98,7 @@ const Navbar = () => {
                 <img src="SIE_logo.svg" alt="logo" height={32} width={32} />
                 <p className="ml-2 text-xl font-bold">SIE App</p>
               </div>
-              {sections.map((section) => (
+              {availableSections.map((section) => (
                 <Link
                   key={section.title}
                   className={`px-4 py-2 rounded transition-colors ${
