@@ -28,7 +28,7 @@ export default function Home() {
     <>
       <main className="w-full">
         <h2 className="text-lg font-medium md:text-2xl">
-          Hola! <span className="font-semibold">Profe {user?.name}</span>, estas
+          Hola <span className="font-semibold">Profe {user?.name}</span>, estas
           son tus clases del dia:
         </h2>
         {loading ? (
